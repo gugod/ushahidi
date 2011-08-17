@@ -1,7 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Ushahidi" do
-  it "fails" do
-    fail "hey buddy, you should probably rename this file and start specing for real"
+end
+
+describe "Ushahidi::Report" do
+  it "can be posted" do
+    u = Ushahidi::Report.new
+    u.respond_to?(:post).should be_true
   end
 end
