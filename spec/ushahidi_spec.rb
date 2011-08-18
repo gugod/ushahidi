@@ -4,7 +4,30 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Ushahidi" do
   it "can post" do
+    Ushahidi.respond_to?(:api_base).should be_true
+    Ushahidi.respond_to?(:api_base=).should be_true
     Ushahidi.respond_to?(:post).should be_true
+  end
+
+  if ENV["USHAHIDI_API_BASE"]
+    it "can post to #{ENV["USHAHIDI_API_BASE"]}" do
+      Ushahidi.api_base = ENV["USHAHIDI_API_BASE"]
+
+      report = Ushahidi::Report.new(
+        :longitude => 180 * [1,-1][rand(2)] * rand,
+        :latitude =>   90 * [1,-1][rand(2)] * rand,
+        :location_name => "Somewhere Center",
+        :incident => Ushahidi::Incident.new(
+          :title => "Testing ushahidi gem. #{$$} #{rand}",
+          :description => "#{$$} #{rand}\nTest Report from Ushahidi Gem.",
+          :at => Time.now.utc,
+          :categories => [1]
+          )
+        )
+
+      response = Ushahidi.post(report)
+      response.code.should == 200
+    end
   end
 end
 

@@ -1,5 +1,6 @@
-require "cgi"
+
 require "doodle"
+require "rest-client"
 
 class Ushahidi
   class Incident < Doodle
@@ -38,6 +39,23 @@ class Ushahidi
     end
   end
 
+  @@api_base = nil
+
+  def self.api_base
+    @@api_base
+  end
+
+  def self.api_base=(x)
+    @@api_base = x
+  end
+
   def self.post(x)
+    raise "No api base" unless @@api_base
+
+    h = x.to_params_hash
+
+    h["task"] = "report"
+
+    RestClient.post(@@api_base, h)
   end
 end
