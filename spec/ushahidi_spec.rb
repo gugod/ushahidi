@@ -3,6 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 # API Ref: http://wiki.ushahidi.com/doku.php?id=ushahidi_api
 
 describe "Ushahidi" do
+  it "can post" do
+    Ushahidi.respond_to?(:post).should be_true
+  end
 end
 
 describe "Ushahidi::Incident" do
@@ -22,15 +25,15 @@ describe "Ushahidi::Incident" do
       :categories => [1,2,3,5]
       )
 
-    x.to_a.should == [
-      "incident_title", "XyZ",
-      "incident_description", "Xyz Xyz Xyz",
-      "incident_date", "05/05/2000",
-      "incident_hour", "10",
-      "incident_minute", "05",
-      "incident_ampm", "am",
-      "incident_category", "1,2,3,5"
-    ]
+    x.to_params_hash.should == {
+      "incident_title" => "XyZ",
+      "incident_description" => "Xyz Xyz Xyz",
+      "incident_date" => "05/05/2000",
+      "incident_hour" => "10",
+      "incident_minute" => "05",
+      "incident_ampm" => "am",
+      "incident_category" => "1,2,3,5"
+    }
   end
 end
 
@@ -39,19 +42,28 @@ describe "Ushahidi::Report" do
     @report = Ushahidi::Report.new(
       :longitude => 23.45,
       :latitude => 123.45,
-      :location_name => "Somewhere Center"
+      :location_name => "Somewhere Center",
+      :incident => Ushahidi::Incident.new(
+        :title => "foo",
+        :description => "Bar",
+        :at => Time.utc(2000, 10, 10, 10, 35, 0),
+        :categories => [1,2,3,5]
+        )
       )
   end
 
-  it "can be posted" do
-    @report.respond_to?(:post).should be_true
-  end
-
   it "has those attribute accessors" do
-    @report.to_a.should == [
-      "longitude", "23.45",
-      "latitude", "123.45",
-      "location_name", "Somewhere Center"
-    ]
+    @report.to_params_hash.should == {
+      "incident_title"       => "foo",
+      "incident_description" => "Bar",
+      "incident_date"        => "10/10/2000",
+      "incident_hour"        => "10",
+      "incident_minute"      => "35",
+      "incident_ampm"        => "am",
+      "incident_category"    => "1,2,3,5",
+      "longitude"            => "23.45",
+      "latitude"             => "123.45",
+      "location_name"        => "Somewhere Center"
+    }
   end
 end
