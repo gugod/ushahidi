@@ -51,6 +51,7 @@ class Ushahidi
 
   def self.post(x)
     raise "No api base" unless @@api_base
+    raise "Can only post report" unless x.is_a? Report
 
     h = x.to_params_hash
 
