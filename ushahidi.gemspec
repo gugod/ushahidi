@@ -26,7 +26,8 @@ Gem::Specification.new do |s|
     "VERSION",
     "lib/ushahidi.rb",
     "spec/spec_helper.rb",
-    "spec/ushahidi_spec.rb"
+    "spec/ushahidi_spec.rb",
+    "ushahidi.gemspec"
   ]
   s.homepage = %q{http://github.com/gugod/ushahidi}
   s.licenses = [%q{MIT}]
