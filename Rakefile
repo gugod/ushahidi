@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/gugod/ushahidi"
   gem.license = "MIT"
   gem.summary = %Q{Ushahidi API}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.description = %Q{The ruby classes that takls to ushahidi platforms. ref: http://wiki.ushahidi.com/doku.php?id=ushahidi_api}
   gem.email = "gugod@gugod.org"
   gem.authors = ["Kang-min Liu"]
   # dependencies defined in Gemfile
