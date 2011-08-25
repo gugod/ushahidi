@@ -1,6 +1,7 @@
 source "http://rubygems.org"
 
 gem "doodle"
+gem "json"
 gem "rest-client"
 
 # Add dependencies to develop your gem here.
