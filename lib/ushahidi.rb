@@ -38,6 +38,17 @@ class Ushahidi
         "latitude"      => "#{latitude}"
         )
     end
+
+    def self.approve(id)
+      raise "No api base" unless Ushahidi.api_base
+
+      res = RestClient.post(Ushahidi.api_base, {
+          :task => "reports",
+          :incident_id => id.to_s,
+          :action => "approve"
+        })
+      return JSON.parse(res)
+    end
   end
 
   @@api_base = nil

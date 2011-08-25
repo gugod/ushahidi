@@ -99,4 +99,18 @@ describe "Ushahidi::Report" do
       "location_name"        => "Somewhere Center"
     }
   end
+
+  if ENV["USHAHIDI_API_BASE"]
+    it "can approve reports" do
+      Ushahidi.api_base = ENV["USHAHIDI_API_BASE"]
+
+      ids1 = Ushahidi.unapproved_report_ids
+
+      Ushahidi::Report.approve(ids1[0])
+
+      ids2 = Ushahidi.unapproved_report_ids
+
+      ids2.include?(ids1[0]).should be_false      
+    end
+  end
 end
