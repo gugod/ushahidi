@@ -28,6 +28,16 @@ describe "Ushahidi" do
       response = Ushahidi.post(report)
       response.code.should == 200
     end
+
+    it "can pull the IDs of unapproved reports" do
+      Ushahidi.api_base = ENV["USHAHIDI_API_BASE"]
+
+      ids = Ushahidi.unapproved_report_ids
+      ids.should be_kind_of Array
+      ids.each do |x|
+        x.should be_kind_of Integer
+      end
+    end
   end
 end
 

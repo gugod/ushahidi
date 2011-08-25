@@ -1,6 +1,7 @@
 
 require "doodle"
 require "rest-client"
+require "json"
 
 class Ushahidi
   class Incident < Doodle
@@ -58,5 +59,18 @@ class Ushahidi
     h["task"] = "report"
 
     RestClient.post(@@api_base, h)
+  end
+
+  def self.unapproved_report_ids
+    raise "No api base" unless @@api_base
+
+    res = RestClient.post(@@api_base, {
+        :task => "reports",
+        :by => "unapproved"
+      })
+
+    r = JSON.parse(res)
+
+    return r["payload"]["incidents"].map { |x| x["incident"]["incidentid"].to_i }
   end
 end
